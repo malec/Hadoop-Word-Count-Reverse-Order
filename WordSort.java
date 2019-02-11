@@ -11,26 +11,25 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
+
 public class WordSort {
-  public static class TokenizerMapper 
-       extends Mapper<Object, Text, Text, IntWritable>{
+  public static class TokenizerMapper extends Mapper<Object, Text, MyText, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
-    private Text word = new Text();
-    public void map(Object key, Text value, Context context
-                    ) throws IOException, InterruptedException {
+    // private MyText word = new MyText();
+
+    public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       while (itr.hasMoreTokens()) {
-        word.set(itr.nextToken());
-        context.write(word, one);
+        context.write(new MyText(itr.nextToken()), one);
       }
     }
   }
-  public static class IntSumReducer 
-       extends Reducer<Text,IntWritable,Text,IntWritable> {
+
+  public static class IntSumReducer extends Reducer<MyText, IntWritable, MyText, IntWritable> {
     private IntWritable result = new IntWritable();
-    public void reduce(Text key, Iterable<IntWritable> values, 
-                       Context context
-                       ) throws IOException, InterruptedException {
+
+    public void reduce(MyText key, Iterable<IntWritable> values, Context context)
+        throws IOException, InterruptedException {
       int sum = 0;
       for (IntWritable val : values) {
         sum += val.get();
@@ -39,6 +38,7 @@ public class WordSort {
       context.write(key, result);
     }
   }
+
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
     String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
@@ -51,7 +51,8 @@ public class WordSort {
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(IntSumReducer.class);
-    job.setOutputKeyClass(Text.class);
+    job.setOutputKeyClass(MyText.class);
+    // job.setSortComparatorClass(MyText.class);
     job.setOutputValueClass(IntWritable.class);
     FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
     FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));

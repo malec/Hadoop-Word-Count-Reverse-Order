@@ -37,9 +37,6 @@
                         <additionalClasspathElement>
                     $HADOOP_HOME/share/hadoop/common/lib/commons-cli-1.2.jar
                         </additionalClasspathElement>
-                        <additionalClasspathElement>
-                    ${basedir}
-                        </additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>

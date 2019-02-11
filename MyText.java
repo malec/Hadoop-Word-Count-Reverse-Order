@@ -42,7 +42,7 @@ public class MyText implements Writable, WritableComparable<MyText> {
         } else if (other.getText().toString().equals("*")) {
             return 1;
         }
-        return this.text.compareTo(other.getText());
+        return 0;
     }
 
     @Override

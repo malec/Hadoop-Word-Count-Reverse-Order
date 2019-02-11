@@ -29,11 +29,12 @@ public class MyText implements Writable, WritableComparable<MyText> {
     }
 
     @Override
-    public int compareTo(MyText other) { // A compareTo B
+    public int compareTo(MyText other) { 
+        // A compareTo B
         int returnVal = this.text.compareTo(other.getText()); 
-        // return -1: A < B
+        // return 1: A < B
         // return 0: A = B
-        // return 1: A > B
+        // return -1: A > B
         if (returnVal != 0) { 
             return -1*returnVal;
         }

@@ -15,8 +15,6 @@ import org.apache.hadoop.util.GenericOptionsParser;
 public class WordSort {
   public static class TokenizerMapper extends Mapper<Object, Text, MyText, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
-    // private MyText word = new MyText();
-
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       while (itr.hasMoreTokens()) {

@@ -13,20 +13,20 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
 public class WordSort {
-  public static class TokenizerMapper extends Mapper<Object, Text, MyText, IntWritable> {
+  public static class TokenizerMapper extends Mapper<Object, Text, Ahltext, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       while (itr.hasMoreTokens()) {
-        context.write(new MyText(itr.nextToken()), one);
+        context.write(new Ahltext(itr.nextToken()), one);
       }
     }
   }
 
-  public static class IntSumReducer extends Reducer<MyText, IntWritable, MyText, IntWritable> {
+  public static class IntSumReducer extends Reducer<Ahltext, IntWritable, Ahltext, IntWritable> {
     private IntWritable result = new IntWritable();
 
-    public void reduce(MyText key, Iterable<IntWritable> values, Context context)
+    public void reduce(Ahltext key, Iterable<IntWritable> values, Context context)
         throws IOException, InterruptedException {
       int sum = 0;
       for (IntWritable val : values) {
@@ -49,7 +49,7 @@ public class WordSort {
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(IntSumReducer.class);
-    job.setOutputKeyClass(MyText.class);
+    job.setOutputKeyClass(Ahltext.class);
     job.setOutputValueClass(IntWritable.class);
     FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
     FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));

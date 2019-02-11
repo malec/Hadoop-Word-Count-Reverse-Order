@@ -5,18 +5,18 @@ import java.io.DataOutput;
 import java.io.IOException;
 import org.apache.hadoop.io.WritableComparable;
 
-public class MyText implements Writable, WritableComparable<MyText> {
+public class Ahltext implements Writable, WritableComparable<Ahltext> {
     private Text text;
 
-    public MyText(Text _text) {
+    public Ahltext(Text _text) {
         this.text = _text;
     }
 
-    public MyText(String textString) {
+    public Ahltext(String textString) {
         this.text = new Text(textString);
     }
 
-    public MyText() {
+    public Ahltext() {
         this.text = new Text();
     }
 
@@ -29,7 +29,7 @@ public class MyText implements Writable, WritableComparable<MyText> {
     }
 
     @Override
-    public int compareTo(MyText other) { 
+    public int compareTo(Ahltext other) { 
         // A compareTo B
         int returnVal = this.text.compareTo(other.getText()); 
         // return 1: A < B
@@ -68,7 +68,7 @@ public class MyText implements Writable, WritableComparable<MyText> {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        MyText textO = (MyText) o;
+        Ahltext textO = (Ahltext) o;
 
         if (text != null ? !text.equals(textO.text) : textO.text != null)
             return false;
@@ -78,8 +78,6 @@ public class MyText implements Writable, WritableComparable<MyText> {
 
     @Override
     public int hashCode() {
-        int result = (text != null) ? text.hashCode() : 0;
-        result = 163 * result;
-        return result;
+        return text.hashCode();
     }
 }

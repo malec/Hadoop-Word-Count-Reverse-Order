@@ -15,10 +15,13 @@ import org.apache.hadoop.util.GenericOptionsParser;
 public class WordSort {
   public static class TokenizerMapper extends Mapper<Object, Text, Ahltext, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
+    private Ahltext word = new Ahltext();
+
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       while (itr.hasMoreTokens()) {
-        context.write(new Ahltext(itr.nextToken()), one);
+        word.setText(itr.nextToken());
+        context.write(word, one);
       }
     }
   }
